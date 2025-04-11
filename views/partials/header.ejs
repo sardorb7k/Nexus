@@ -1,0 +1,61 @@
+<header>
+  <nav class="navbar navbar-expand-lg border-bottom">
+    <div class="container max-width">
+      <a class="navbar-brand d-flex align-items-center" href="/posts/?page=1">
+        <img src="/images/logo.png" class="me-2" height="20" alt="Nexus Logo" />
+      </a>
+      <button
+        class="btn fs-5 d-lg-none"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar"
+      >
+        <i class="bi bi-list"></i>
+      </button>
+      <div
+        class="offcanvas offcanvas-start bg-black"
+        tabindex="-1"
+        id="offcanvasNavbar"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Menu</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+          ></button>
+        </div>
+        <div
+          class="offcanvas-body md-d-flex md-justify-content-between md-align-items-center"
+        >
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/posts?page=1">Posts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/posts/me?page=1">My Posts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/posts/add">Add Post</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/profiles/me">Profile</a>
+            </li>
+          </ul>
+          <% if (isAuthenticated) { %>
+          <form action="/auth/signout" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <button type="submit" class="btn btn-subtle">Sign out</button>
+          </form>
+          <% } else { %>
+          <div>
+            <a class="btn btn-subtle" href="/auth/signin">Sign in</a>
+            <a class="btn btn-primary" href="/auth/signup">Sign up</a>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

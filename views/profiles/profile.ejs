@@ -1,0 +1,57 @@
+<div
+  class="d-flex flex-column flex-sm-row justify-content-center align-items-center align-items-sm-start gap-5"
+>
+  <img
+    src="<%= user.profilePicture ? user.profilePicture : '/images/default-avatar.png' %>"
+    alt="User Avatar"
+    class="rounded-circle border <%= isMe ? 'mt-3' : '' %>"
+    width="150"
+    height="150"
+  />
+  <div>
+    <% if (isMe) { %> <% if (alerts.error) { %>
+    <div class="alert alert-danger mb-3" role="alert"><%= alerts.error %></div>
+    <% } %>
+    <form
+      action="/profiles/<%= user.id %>"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <div>
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          name="username"
+          value="<%= user.username %>"
+          class="form-control border bg-black mb-2"
+          required
+        />
+      </div>
+      <div>
+        <p class="mb-2 fs-6">Email: <%= user.email %></p>
+      </div>
+      <div>
+        <label for="profilePicture">Profile Picture:</label>
+        <input
+          type="file"
+          name="profilePicture"
+          class="form-control border bg-black mb-2"
+          required
+        />
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary mt-3">
+          Update Profile
+        </button>
+      </div>
+    </form>
+    <% } else { %>
+    <p class="mb-0 fs-6"><b>Username:</b> <%= user.username %></p>
+    <p class="mb-0 fs-6"><b>Email:</b> <%= user.email %></p>
+    <p class="mb-0 fs-6"><b>Role:</b> <%= user.role %></p>
+    <p class="mb-0 fs-6">
+      <b>Account created:</b> <%= formatDate(user.createdAt).split(' ')[0] %>
+    </p>
+    <% } %>
+  </div>
+</div>

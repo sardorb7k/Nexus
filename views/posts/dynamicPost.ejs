@@ -1,0 +1,101 @@
+<!-- <a href="javascript:history.back()" class="btn btn-subtle">
+  <i class="bi bi-arrow-left"></i>
+</a> -->
+<div class="card border mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="card-title"><%= post.title %></h5>
+      <% if (isMyPosts) { %>
+      <div class="dropdown">
+        <button
+          class="btn btn-subtle border dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-three-dots"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a
+              href="/posts/edit/<%= post.id %>"
+              class="dropdown-item"
+              type="button"
+              >Edit</a
+            >
+          </li>
+          <li>
+            <form action="/posts/delete/<%= post.id %>" method="post">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+              <button class="dropdown-item" type="submit">Delete</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+      <% } %>
+    </div>
+
+    <% if (post.imageUrl) { %>
+    <img
+      src="<%= post.imageUrl %>"
+      alt="Post Image"
+      class="img-fluid rounded my-3 dynamic-post-image"
+    />
+    <% } %>
+
+    <p class="card-text"><%= post.content %></p>
+  </div>
+  <div class="card-footer p-0">
+    <div class="card-body d-sm-flex justify-content-between align-items-center">
+      <%- include("../partials/author", { user: post.user }) %>
+
+      <div class="mt-3 mt-sm-0">
+        <span
+          >Published:
+          <small class="text-muted"> <%= formatDate(post.createdAt) %> </small>
+        </span>
+        <br />
+        <span
+          class="<%= post.updatedAt.getTime() === post.createdAt.getTime() ? 'd-none' : '' %>"
+        >
+          Edited:
+          <small class="text-muted"> <%= formatDate(post.updatedAt) %> </small>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Author & time -->
+<h5>Write comments</h5>
+<!-- Comments -->
+<form action="/posts/comment/<%= post.id %>" method="post" class="mb-4">
+  <textarea
+    class="form-control bg-black border mb-2"
+    name="comment"
+    rows="4"
+    required
+    placeholder="Write your comment to this post"
+    style="resize: none; overflow: hidden"
+    oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';"
+  ></textarea
+  ><input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary">Add comment</button>
+  </div>
+</form>
+
+<h5>Comments</h5>
+<% if(post.comments.length > 0) { %> <% post.comments.forEach((comment) => { %>
+<div class="card border mb-2">
+  <div class="card-body pb-0">
+    <%- include("../partials/author", { user: comment.user }) %>
+    <p class="text-muted mt-2"><%= comment.comment %></p>
+  </div>
+  <div class="card-footer d-flex justify-content-end">
+    <small>Commented: <%= formatDate(comment.createdAt) %></small>
+  </div>
+</div>
+<% }); %> <% } else { %>
+<p class="text-muted">No comments yet.</p>
+<% } %>

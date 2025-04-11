@@ -1,0 +1,40 @@
+<h2 class="mb-4">Add New Post</h2>
+<form action="/posts/add" method="POST" enctype="multipart/form-data">
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input
+      type="text"
+      class="form-control bg-black border"
+      id="title"
+      name="title"
+      value="<%= alerts.oldTitle || '' %>"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <label for="content" class="form-label">Content</label>
+    <textarea
+      class="form-control bg-black border"
+      id="content"
+      name="content"
+      rows="4"
+      style="resize: none; overflow: hidden"
+      oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';"
+      required
+    >
+<%= alerts.oldContent || '' %></textarea
+    >
+  </div>
+  <div class="mb-3">
+    <label for="imageUrl" class="form-label">Image</label>
+    <input
+      class="form-control border bg-black"
+      type="file"
+      name="imageUrl"
+      id="imageUrl"
+      required
+    />
+  </div>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+  <button type="submit" class="btn btn-primary">Add Post</button>
+</form>

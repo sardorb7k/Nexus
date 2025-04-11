@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title || Nexus %></title>
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="bg-black d-flex flex-column min-vh-100">
+    <!-- Header -->
+    <%- include("partials/header") %>
+
+    <!-- Body -->
+    <div class="container pt-5 flex-grow-1 max-width"><%- body %></div>
+
+    <!-- Pagination -->
+    <% if (needPagination) { %> <% if (totalPages > 1) { %>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center pb-5">
+        <!-- Previous Button -->
+        <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+          <a
+            class="page-link bg-black border text-white"
+            href="?page=<%= currentPage - 1 %>"
+            aria-label="Previous"
+          >
+            <i class="bi bi-arrow-left"></i>
+          </a>
+        </li>
+
+        <!-- Page Numbers -->
+        <% if (pageNumbers[0] > 1) { %>
+        <li class="page-item">
+          <a class="page-link bg-black border text-white" href="?page=1">1</a>
+        </li>
+        <% if (pageNumbers[0] > 2) { %>
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        <% } %> <% } %> <% pageNumbers.forEach(pageNumber => { %>
+        <li class="page-item <%= currentPage === pageNumber ? 'active' : '' %>">
+          <a
+            class="page-link bg-black border text-white"
+            href="?page=<%= pageNumber %>"
+            ><%= pageNumber %></a
+          >
+        </li>
+        <% }); %> <% if (pageNumbers[pageNumbers.length - 1] < totalPages) { %>
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        <li class="page-item">
+          <a
+            class="page-link bg-black border text-white"
+            href="?page=<%= totalPages %>"
+            ><%= totalPages %></a
+          >
+        </li>
+        <% } %>
+
+        <!-- Next Button -->
+        <li
+          class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>"
+        >
+          <a
+            class="page-link bg-black border text-white"
+            href="?page=<%= currentPage + 1 %>"
+            aria-label="Next"
+          >
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <% } %> <% } %>
+
+    <!-- Footer -->
+    <%- include("partials/footer") %>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

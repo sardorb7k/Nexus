@@ -1,0 +1,55 @@
+<% if (posts.length > 0) { %> <% posts.forEach(post => { %>
+<div class="card border mb-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <%- include("../partials/author", { user: post.user }) %> <% if
+      (isMyPosts) { %>
+      <div class="dropdown">
+        <button
+          class="btn btn-subtle border dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-three-dots"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a
+              href="/posts/edit/<%= post.id %>"
+              class="dropdown-item"
+              type="button"
+              >Edit</a
+            >
+          </li>
+          <li>
+            <form action="/posts/delete/<%= post.id %>" method="post">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+              <button class="dropdown-item" type="submit">Delete</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+      <% } %>
+    </div>
+
+    <h5 class="card-title"><%= post.title %></h5>
+
+    <% if (post.imageUrl) { %>
+    <img
+      src="<%= post.imageUrl %>"
+      alt="Post Image"
+      class="rounded my-3 post-image"
+    />
+    <% } %>
+
+    <p class="card-text line-clamp"><%= post.content %></p>
+    <a href="/posts/<%= post.id %>" class="link-secondary">Read more</a>
+  </div>
+</div>
+<% }) %> <% } else { %> <% if (isMyPosts) { %>
+<p class="text-muted">You haven't posted anything yet.</p>
+<% } else { %>
+<p class="text-muted">No posts yet.</p>
+
+<% } %> <% } %>
