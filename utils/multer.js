@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      Date.now() + path.extname(file.originalname)
     );
   },
 });
@@ -23,7 +23,7 @@ const upload = multer({
 
 //Check file for image format
 function checkFileType(file, cb) {
-  const filetypes = /jpeg|png|jpg|gif|webp/;
+  const filetypes = /jpeg|jpg|gif|webp|avif/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = filetypes.test(file.mimetype);
 

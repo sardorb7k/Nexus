@@ -57,13 +57,36 @@ textarea:focus {
 
 /* Post image */
 .post-image {
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  object-fit: cover; /* or use 'contain' if you want to show full image without cropping */
-  border-radius: 0.5rem;
+  height: 450px;
+  position: relative;
+  z-index: 2;
 }
 
-.dynamic-post-image {
-  width: 100%;
+.post-image-wrapper {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 3; /* Ensure this image appears above the background */
+}
 
+.post-image-background {
+  filter: blur(8px);
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1; /* Position it behind the main image */
+  object-fit: cover; /* Keeps the background image covering the container without distortion */
+}
+
+
+
+.book-designed-image {
+  width: 100%;
+} 
+
+/* book-style */
+.post-image-container {
+  position: relative;
+  overflow: hidden;
 }

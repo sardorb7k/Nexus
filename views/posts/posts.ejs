@@ -34,13 +34,21 @@
     </div>
 
     <h5 class="card-title"><%= post.title %></h5>
-
     <% if (post.imageUrl) { %>
-    <img
-      src="<%= post.imageUrl %>"
-      alt="Post Image"
-      class="rounded my-3 post-image"
-    />
+    <div class="post-image-container">
+      <img
+        src="<%= post.imageUrl %>"
+        alt="Post backdrop"
+        class="post-image-background"
+      />
+      <div class="post-image-wrapper">
+        <img
+          src="<%= post.imageUrl %>"
+          alt="Post Image"
+          class="rounded my-3 <%= post.imageUrl.startsWith('book') ? 'book-designed-image' : 'album-designed-image' %> post-image"
+        />
+      </div>
+    </div>
     <% } %>
 
     <p class="card-text line-clamp"><%= post.content %></p>

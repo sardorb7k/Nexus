@@ -1,5 +1,8 @@
 const { Posts, Comments, Users } = require("../models");
 const formatDate = require("../utils/formateDate");
+const { imageSizeFromFile } = require("image-size/fromFile");
+const path = require("path");
+const fs = require("fs");
 
 // Get all posts
 const getAllPosts = async (req, res) => {
@@ -97,18 +100,38 @@ const addPostPage = (req, res) => {
 // post adding
 const addPost = async (req, res) => {
   const { title, content } = req.body;
-
   const userId = req.session.userId;
-  const imageUrl = `/uploads/${req.file.filename}`;
+
+  // Get file details
+
+  const oldPath = path.join(
+    __dirname,
+    "../public",
+    "uploads",
+    req.file.filename
+  );
+
+  const dimensions = await imageSizeFromFile(oldPath);
+
+  let designType = "album";
+  if (dimensions.width < dimensions.height) {
+    designType = "book";
+  }
+
+  // Rename file to include designType
+  const newFilename = `${designType}-${req.file.filename}`;
+  const newPath = path.join(__dirname, "../public", "uploads", newFilename);
+
+  // Rename file asynchronously
+  fs.renameSync(oldPath, newPath);
+
+  const imageUrl = `/uploads/${newFilename}`;
 
   try {
     await Posts.create({ title, content, imageUrl, userId });
     res.redirect("/posts/me");
   } catch (err) {
     console.error(err);
-    req.flash("error", "Error adding post");
-    req.flash("oldTitle", title);
-    req.flash("oldContent", content);
     res.redirect("/posts/add");
   }
 };
